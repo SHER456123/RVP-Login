@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RVP LOGIN - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 2px solid #ff0000;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: #ff0000;
+            font-size: 24px;
+            text-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+        }
+
+        .navbar-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .navbar-right p {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .navbar-right a {
+            color: #ff0000;
+            text-decoration: none;
+            padding: 8px 15px;
+            border: 1px solid #ff0000;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .navbar-right a:hover {
+            background: #ff0000;
+            color: #000;
+            text-shadow: none;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #ff0000;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+        }
+
+        .card h2 {
+            color: #ff0000;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #ff6600;
+            font-weight: bold;
+        }
+
+        .info-value {
+            color: #fff;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff0000, #ff6600);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .welcome-message {
+            background: rgba(255, 0, 0, 0.1);
+            border-left: 4px solid #ff0000;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-message h3 {
+            color: #ff0000;
+            margin-bottom: 10px;
+        }
+
+        .welcome-message p {
+            color: #aaa;
+        }
+
+        .admin-section {
+            background: rgba(255, 0, 0, 0.05);
+            border: 2px solid #ff6600;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .admin-section h3 {
+            color: #ff6600;
+            margin-bottom: 15px;
+        }
+
+        .user-list {
+            list-style: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .user-list li {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 12px;
+            margin: 8px 0;
+            border-left: 3px solid #ff0000;
+            border-radius: 3px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-badge {
+            font-size: 12px;
+            background: #ff0000;
+            color: #000;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #ff0000, #ff6600);
+            border: none;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+        }
+
+        .loading {
+            color: #ff6600;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>🔴 RVP LOGIN</h1>
+        <div class="navbar-right">
+            <p id="userGreeting">Welcome, User!</p>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="welcome-message">
+            <h3>🚀 Welcome to RVP LOGIN Beta!</h3>
+            <p>Your account is active and ready. Check your profile info below and explore the system.</p>
+        </div>
+
+        <div class="card">
+            <h2>👤 Your Profile</h2>
+            <div class="info-item">
+                <span class="info-label">Username:</span>
+                <span class="info-value" id="username">Loading...</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Email:</span>
+                <span class="info-value" id="email">Loading...</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Account Status:</span>
+                <span class="info-value"><span class="badge" id="statusBadge">ACTIVE</span></span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Role:</span>
+                <span class="info-value" id="roleBadge">User</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Created At:</span>
+                <span class="info-value" id="createdAt">Loading...</span>
+            </div>
+        </div>
+
+        <div id="adminPanel"></div>
+    </div>
+
+    <script>
+        // Load user info
+        async function loadUserInfo() {
+            try {
+                const response = await fetch('/api/user-info');
+                const data = await response.json();
+
+                document.getElementById('username').textContent = data.username;
+                document.getElementById('email').textContent = data.email;
+                document.getElementById('userGreeting').textContent = `Welcome, ${data.username}! 🔥`;
+                
+                const createdDate = new Date(data.created_at).toLocaleDateString();
+                document.getElementById('createdAt').textContent = createdDate;
+
+                if (data.is_owner) {
+                    document.getElementById('roleBadge').innerHTML = '<span class="badge" style="background: #ff6600;">👑 OWNER</span>';
+                    loadAdminPanel();
+                }
+            } catch (error) {
+                console.error('Error loading user info:', error);
+            }
+        }
+
+        // Load admin panel
+        async function loadAdminPanel() {
+            try {
+                const response = await fetch('/api/admin/users');
+                const data = await response.json();
+
+                let html = `
+                    <div class="admin-section">
+                        <h3>⚙️ Admin Panel - All Users (${data.users.length})</h3>
+                        <ul class="user-list">
+                `;
+
+                data.users.forEach(user => {
+                    const ownerBadge = user.is_owner ? '<span class="user-badge">👑 OWNER</span>' : '';
+                    html += `
+                        <li>
+                            <div>
+                                <strong>${user.username}</strong><br>
+                                <small style="color: #aaa;">${user.email}</small>
+                            </div>
+                            ${ownerBadge}
+                        </li>
+                    `;
+                });
+
+                html += `</ul></div>`;
+                document.getElementById('adminPanel').innerHTML = html;
+            } catch (error) {
+                console.error('Error loading admin panel:', error);
+            }
+        }
+
+        // Load on page load
+        window.addEventListener('load', loadUserInfo);
+    </script>
+</body>
+</html>
